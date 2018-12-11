@@ -17,3 +17,4 @@ Route::get('/', function () {
 
 Route::get('/todo', 'TodoController@index')->name('todo.index');
 Route::post('/todo/store', 'TodoController@store')->name('todo.store');
+Route::post('/todo/destroy', 'TodoController@destroy')->name('todo.destroy');
