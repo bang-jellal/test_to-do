@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Todo;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
 class TodoController extends Controller
 {
     /**
@@ -36,13 +34,15 @@ class TodoController extends Controller
     }
 
     /**
-     * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function show($id)
+    public function destroy(Request $request)
     {
-        //
+        $todos_id = $request->input('todos_id', []);
+        Todo::destroy($todos_id);
+
+        return redirect()->route('todo.index');
     }
 }
