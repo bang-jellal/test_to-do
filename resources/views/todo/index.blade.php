@@ -58,13 +58,19 @@
                     @foreach($items as $item)
                         <div class="flex-sb-m w-full p-b-30">
                             <div class="contact100-form-checkbox">
-                                <input class="input-checkbox100 todo" id="todo-{{ $item->id }}" type="checkbox">
+                                <input class="input-checkbox100 todo" id="todo-{{ $item->id }}" type="checkbox" value="{{ $item->id }}">
                                 <label class="label-checkbox100" for="todo-{{ $item->id }}">
                                     {{ $item->name }}
                                 </label>
                             </div>
                         </div>
                     @endforeach
+                </div>
+
+                <div class="container-login100-form-btn" style="padding-bottom: 25px">
+                    <a class="login100-form-btn" style="color: white;" id="remove-todo">
+                        Remove Selected Todo
+                    </a>
                 </div>
             </form>
         </div>
@@ -101,6 +107,32 @@
 
         return false;
     });
+
+    $('#remove-todo').click(function () {
+        let todos_id = $('.todo:checkbox:checked').map(function () {
+            return this.value;
+        }).get();
+
+        if (typeof todos_id !== 'undefined' && todos_id.length > 0) {
+            let formData = {
+                _token  : $('meta[name="csrf-token"]').attr('content'),
+                todos_id : todos_id
+            };
+
+            $.ajax({
+                url    : '{{ route('todo.destroy') }}',
+                method : "POST",
+                data   : formData,
+                type   : 'json',
+                success: function (data) {
+                    location.reload()
+                }
+            });
+        }
+
+        return false;
+    });
+
 </script>
 
 </body>
